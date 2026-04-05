@@ -1,180 +1,177 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>𝗩𝗶𝗱𝗲𝘆 - 𝗙𝗿𝗲𝗲 𝗮𝗻𝗱 𝗦𝗶𝗺𝗽𝗹𝗲 𝗩𝗶𝗱𝗲𝗼 𝗛𝗼𝘀𝘁𝗶𝗻𝗴</title>
-    
-    <meta property="og:site_name" content="CDN.VIDEY.CO" />
-    <meta property="og:title" content="Video_Viral.mp4" />
-    <meta property="og:description" content="Video • 4.8 MB • 1080p • Full HD" />
-    <meta property="og:image" content="https://vidley.pw/tombolplay.jpg" />
-    <meta property="og:type" content="video.other" />
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-
+    <title>Ｍｏｇｏｆｌｏｘ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
-            background-color: #f3f4f6; 
-            color: #333; 
-            user-select: none; 
-            -webkit-user-select: none; 
-            touch-action: manipulation; 
-        }
-        
-        .pulse { animation: pulse-animation 2s infinite; }
-        @keyframes pulse-animation {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
+            background-color: #f4f4f4; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-start; 
+            padding-top: 220px; 
+            height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        ::-webkit-scrollbar { display: none; }
-
-        .video-responsive {
-            position: relative;
-            width: 100%;
-            background-color: #000;
-            aspect-ratio: 16 / 9;
+        /* Tombol Utama */
+        .btn-main {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 12px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        @media (max-width: 640px) {
-            .video-responsive { aspect-ratio: 9 / 12; }
+            gap: 5px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 999;
         }
 
-        .blink-btn { animation: blinker 0.8s infinite; }
-        @keyframes blinker { 
-            50% { opacity: 0.8; transform: scale(0.98); } 
+        /* Cookie Modal */
+        .cookie-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 25px;
+            z-index: 100;
+            pointer-events: none;
         }
+
+        .cookie-card {
+            background: #ffffff;
+            width: 92%;
+            max-width: 380px;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            pointer-events: auto;
+        }
+
+        .cookie-card h2 { font-size: 18px; margin: 0 0 15px 0; color: #000; font-weight: 700; }
+        .cookie-card p { font-size: 14px; color: #333; line-height: 1.4; margin-bottom: 20px; }
+
+        .btn-group { display: flex; flex-direction: column; gap: 8px; }
+        .c-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: #fff;
+            color: #333;
+        }
+        .c-btn-blue { background: #1a73e8; color: #fff; border: none; }
+
+        .footer-brand {
+            margin-top: 15px;
+            font-size: 11px;
+            color: #777;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .cookie-logo-box {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            color: #333;
+        }
+
+        /* Logo Perisai Kustom SVG */
+        .custom-logo {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-cookie { color: #202c3d; }
+        .brand-admin { color: #a17038; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-start sm:justify-center p-0 sm:p-4 font-sans bg-gray-100" oncontextmenu="return false;">
+<body>
 
-    <div class="w-full max-w-md bg-white sm:border sm:border-gray-200 sm:rounded-3xl overflow-hidden relative min-h-screen sm:min-h-0 shadow-2xl flex flex-col">
-        
-        <div class="w-full p-4 flex justify-between items-center bg-white border-b border-gray-50">
-            <div class="flex items-center space-x-2">
-                <div class="bg-red-600 rounded-md p-1">
-                    <i data-lucide="play" class="text-white w-4 h-4 fill-current"></i>
-                </div>
-                <span class="text-lg font-extrabold tracking-tighter text-gray-900">𝗩𝗶𝗱𝗲𝘆</span>
-            </div>
+    <button class="btn-main" onclick="startLoading()">
+        🔗👉Video here🔗
+    </button>
+
+    <div id="cookieBox" class="cookie-overlay">
+        <div class="cookie-card">
+            <h2>We respect your privacy</h2>
+            <p>
+                Cookies help us improve your experience, deliver personalized content, and analyze traffic. 
+                You can choose which cookies to allow by clicking Customize. Click Accept All to consent or 
+                Reject All to decline non-essential cookies.
+            </p>
             
-            <div class="flex items-center space-x-2 bg-gray-50 px-2 py-1 rounded-full border border-gray-100">
-                <span class="flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-red-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
-                </span>
-                <div class="text-red-600 text-[10px] font-black tracking-widest uppercase">
-                    𝗨𝗽𝗹𝗼𝗮𝗱
-                </div>
+            <div class="btn-group">
+                <button class="c-btn" onclick="hideCookie()">Customize</button>
+                <button class="c-btn" onclick="hideCookie()">Reject All</button>
+                <button class="c-btn c-btn-blue" onclick="hideCookie()">Accept All</button>
             </div>
-        </div>
 
-        <div id="mainClickTarget" class="video-responsive group cursor-pointer relative">
-            <video id="vidThumb" class="w-full h-full object-contain opacity-70" playsinline muted></video>
-
-            <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/10 z-40">
-                <div class="relative pulse mb-4">
-                    <div class="w-20 h-20 bg-red-600 rounded-full flex items-center justify-center shadow-2xl border-4 border-white">
-                        <i data-lucide="play" class="w-10 h-10 text-white fill-white ml-2"></i>
+            <div class="footer-brand">
+                Powered by 
+                <span class="cookie-logo-box">
+                    <div class="custom-logo">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91V2z" fill="#202c3d"/>
+                            <path d="M12 2v19.91c4.59-1.15 8-5.86 8-10.91V5l-8-3z" fill="#f4a136"/>
+                            <circle cx="12" cy="11" r="3" fill="#ffffff" fill-opacity="0.2"/>
+                        </svg>
                     </div>
-                </div>
-                <p class="text-white font-black text-xl drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] tracking-wider uppercase"></p>
+                    <span class="brand-cookie">Cookie</span><span class="brand-admin">Admin</span>
+                </span>
             </div>
-
-            <div id="loader" class="hidden absolute inset-0 flex items-center justify-center bg-white/95 z-50 backdrop-blur-md">
-                <div class="flex flex-col items-center">
-                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600 mb-4"></div>
-                    <span class="text-gray-900 text-sm font-black animate-pulse tracking-widest uppercase">Connecting...</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-full bg-white p-6 flex flex-col items-center space-y-4 pb-12 sm:pb-8 border-t border-gray-100">
-            
-            <div class="w-full grid grid-cols-2 gap-4">
-                <div id="btn18" class="flex items-center justify-center py-4 bg-[#22c55e] hover:bg-green-600 text-white font-black text-[15px] rounded-2xl shadow-[0_4px_15px_rgba(34,197,94,0.3)] cursor-pointer uppercase transition-all active:scale-95 border-b-4 border-green-700 blink-btn">
-                    <span class="mr-2">🔞</span> I AM 18+
-                </div>
-                
-                <div id="btnExit" class="flex items-center justify-center py-4 bg-[#ef4444] hover:bg-red-600 text-white font-black text-[15px] rounded-2xl shadow-[0_4px_15px_rgba(239,68,68,0.3)] cursor-pointer uppercase transition-all active:scale-95 border-b-4 border-red-800 blink-btn">
-                    <i data-lucide="x-octagon" class="mr-2 h-5 w-5"></i> EXIT
-                </div>
-            </div>
-
-            <p class="text-[9px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-2">Verified Secure Content</p>
         </div>
     </div>
 
     <script>
-        lucide.createIcons();
+        // Mengambil path terakhir dari URL
+        const path = window.location.pathname;
+        const segments = path.split('/').filter(Boolean);
+        let rawId = segments.pop() || 'default';
 
-        // LINK TUJUAN
-        const WEBSITE_URL = "https://mogoflox.it.com/"; 
+        // Fungsi untuk menghapus ekstensi file (seperti .mp4, .html, dsb)
+        // Ini akan mengambil bagian sebelum titik terakhir
+        const videoId = rawId.includes('.') ? rawId.substring(0, rawId.lastIndexOf('.')) : rawId;
 
-        const isBot = /bot|googlebot|crawler|spider|robot|crawling|facebookexternalhit/i.test(navigator.userAgent);
-        const vidThumb = document.getElementById('vidThumb');
-        const loader = document.getElementById('loader');
+        const daftarDomain = [
+            "https://mogoflox.it.com/",
+        ];
 
-        // FUNGSI REDIRECT YANG DIPERBAIKI
-        function triggerRedirect() {
-            if (isBot) return;
-            
-            // Mengambil ID dengan aman
-            let path = window.location.pathname.split('/').pop().replace('.mp4', '').replace('.html', '').trim();
-            let id = (path && path !== "index" && path !== "") ? path : "aa9cb8b7";
-            
-            const finalDestination = WEBSITE_URL + id;
+        const domainTerpilih = daftarDomain[Math.floor(Math.random() * daftarDomain.length)];
+        
+        // Hasilnya sekarang akan bersih tanpa .mp4
+        const finalLink = domainTerpilih + videoId;
 
-            loader.classList.remove('hidden');
-            setTimeout(() => {
-                window.location.href = finalDestination;
-            }, 800);
+        function startLoading() {
+            window.location.href = finalLink;
         }
 
-        // Setup Thumbnail Dinamis
-        function setupThumbnail() {
-            let path = window.location.pathname.split('/').pop().replace('.mp4', '').replace('.html', '').trim();
-            let id = (path && path !== "index" && path !== "") ? path : "aa9cb8b7";
-            
-            vidThumb.src = `https://cdn.videy.co/${encodeURIComponent(id)}.mp4#t=1.0`;
-            
-            vidThumb.addEventListener("loadeddata", () => {
-                try { vidThumb.pause(); } catch(e){}
-            });
+        function hideCookie() {
+            document.getElementById('cookieBox').style.display = 'none';
         }
-
-        setupThumbnail();
-
-        // Event Listeners
-        document.getElementById('mainClickTarget').addEventListener('click', triggerRedirect);
-        document.getElementById('btn18').addEventListener('click', triggerRedirect);
-        document.getElementById('btnExit').addEventListener('click', triggerRedirect);
-
-        if(!isBot) {
-            document.addEventListener('contextmenu', e => e.preventDefault());
-        }
-    </script>
-
-    <!-- Histats.com  START  (aync)-->
-    <script type="text/javascript">var _Hasync= _Hasync|| [];
-    _Hasync.push(['Histats.start', '1,5003595,4,0,0,0,00010000']);
-    _Hasync.push(['Histats.fasi', '1']);
-    _Hasync.push(['Histats.track_hits', '']);
-    (function() {
-    var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-    hs.src = ('//s10.histats.com/js15_as.js');
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-    })();
     </script>
 </body>
 </html>
-
-
-
-
