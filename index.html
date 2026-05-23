@@ -1,295 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ｍｏｇｏｆｌｏｘ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
+            background-color: #f4f4f4; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-start; 
+            padding-top: 220px; 
+            height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
-<title>Mogoflox | Watch Free Content</title>
+        /* Tombol Utama */
+        .btn-main {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 12px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 999;
+        }
 
-<!-- SEO -->
-<meta name="description" content="Watch the full content on Mogoflox with a fast, secure, and mobile-friendly experience." />
+        /* Cookie Modal */
+        .cookie-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 25px;
+            z-index: 100;
+            pointer-events: none;
+        }
 
-<!-- Open Graph (Facebook) -->
-<meta property="og:title" content="Mogoflox | Watch Full Content" />
-<meta property="og:description" content="Open the full content safely and continue to the main website." />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="https://mogoflox.it.com/thumbnail.jpg" />
-<meta property="og:url" content="https://mogoflox.it.com/" />
+        .cookie-card {
+            background: #ffffff;
+            width: 92%;
+            max-width: 380px;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            pointer-events: auto;
+        }
 
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
+        .cookie-card h2 { font-size: 18px; margin: 0 0 15px 0; color: #000; font-weight: 700; }
+        .cookie-card p { font-size: 14px; color: #333; line-height: 1.4; margin-bottom: 20px; }
 
-<!-- Favicon -->
-<link rel="icon" href="https://mogoflox.it.com/favicon.ico" />
+        .btn-group { display: flex; flex-direction: column; gap: 8px; }
+        .c-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            background: #fff;
+            color: #333;
+        }
+        .c-btn-blue { background: #1a73e8; color: #fff; border: none; }
 
-<!-- Font -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        .footer-brand {
+            margin-top: 15px;
+            font-size: 11px;
+            color: #777;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+        }
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        .cookie-logo-box {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            color: #333;
+        }
 
-body{
-    font-family:'Inter',sans-serif;
-    background:#f4f6f9;
-    color:#111827;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
+        /* Logo Perisai Kustom SVG */
+        .custom-logo {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+            display: flex;
+            align-items: center;
+        }
 
-.container{
-    width:100%;
-    max-width:480px;
-}
-
-.card{
-    background:#ffffff;
-    border-radius:24px;
-    overflow:hidden;
-    box-shadow:
-    0 10px 30px rgba(0,0,0,.08);
-}
-
-.thumbnail{
-    width:100%;
-    aspect-ratio:16/9;
-    background:url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1200&auto=format&fit=crop') center/cover;
-}
-
-.content{
-    padding:28px;
-}
-
-.badge{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    background:#eef2ff;
-    color:#4338ca;
-    padding:8px 14px;
-    border-radius:999px;
-    font-size:13px;
-    font-weight:600;
-    margin-bottom:18px;
-}
-
-h1{
-    font-size:28px;
-    line-height:1.2;
-    margin-bottom:14px;
-    font-weight:800;
-    color:#111827;
-}
-
-p{
-    font-size:15px;
-    line-height:1.7;
-    color:#4b5563;
-    margin-bottom:24px;
-}
-
-.features{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    margin-bottom:28px;
-}
-
-.feature{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    font-size:14px;
-    color:#374151;
-}
-
-.icon{
-    width:34px;
-    height:34px;
-    border-radius:10px;
-    background:#f3f4f6;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:15px;
-}
-
-.btn{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    width:100%;
-    padding:16px;
-    border-radius:14px;
-    background:#111827;
-    color:#ffffff;
-    text-decoration:none;
-    font-size:16px;
-    font-weight:700;
-    transition:.2s ease;
-}
-
-.btn:hover{
-    transform:translateY(-1px);
-    opacity:.95;
-}
-
-.notice{
-    margin-top:18px;
-    font-size:12px;
-    color:#6b7280;
-    text-align:center;
-    line-height:1.6;
-}
-
-.footer{
-    margin-top:18px;
-    text-align:center;
-    font-size:13px;
-    color:#6b7280;
-}
-
-.footer a{
-    color:#374151;
-    text-decoration:none;
-    margin:0 8px;
-}
-
-.footer a:hover{
-    text-decoration:underline;
-}
-
-@media(max-width:480px){
-    h1{
-        font-size:24px;
-    }
-
-    .content{
-        padding:22px;
-    }
-}
-</style>
+        .brand-cookie { color: #202c3d; }
+        .brand-admin { color: #a17038; }
+    </style>
 </head>
 <body>
 
-<div class="container">
+    <button class="btn-main" onclick="startLoading()">
+        🔗👉Video here🔗
+    </button>
 
-    <div class="card">
-
-        <!-- Thumbnail -->
-        <div class="thumbnail"></div>
-
-        <div class="content">
-
-            <div class="badge">
-                🔥 Trending Content
-            </div>
-
-            <h1>Watch The Full Video</h1>
-
+    <div id="cookieBox" class="cookie-overlay">
+        <div class="cookie-card">
+            <h2>We respect your privacy</h2>
             <p>
-                Continue to the official website to watch the complete content with a secure and optimized viewing experience.
+                Cookies help us improve your experience, deliver personalized content, and analyze traffic. 
+                You can choose which cookies to allow by clicking Customize. Click Accept All to consent or 
+                Reject All to decline non-essential cookies.
             </p>
-
-            <div class="features">
-
-                <div class="feature">
-                    <div class="icon">⚡</div>
-                    Fast mobile experience
-                </div>
-
-                <div class="feature">
-                    <div class="icon">🔒</div>
-                    Secure official website
-                </div>
-
-                <div class="feature">
-                    <div class="icon">📱</div>
-                    Optimized for all devices
-                </div>
-
+            
+            <div class="btn-group">
+                <button class="c-btn" onclick="hideCookie()">Customize</button>
+                <button class="c-btn" onclick="hideCookie()">Reject All</button>
+                <button class="c-btn c-btn-blue" onclick="hideCookie()">Accept All</button>
             </div>
 
-            <!-- DIRECT LINK -->
-            <a id="continueBtn" class="btn" href="#">
-                ▶ Watch Now
-            </a>
-
-            <div class="notice">
-                Secure access • Mobile optimized • Official website
+            <div class="footer-brand">
+                Powered by 
+                <span class="cookie-logo-box">
+                    <div class="custom-logo">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91V2z" fill="#202c3d"/>
+                            <path d="M12 2v19.91c4.59-1.15 8-5.86 8-10.91V5l-8-3z" fill="#f4a136"/>
+                            <circle cx="12" cy="11" r="3" fill="#ffffff" fill-opacity="0.2"/>
+                        </svg>
+                    </div>
+                    <span class="brand-cookie">Cookie</span><span class="brand-admin">Admin</span>
+                </span>
             </div>
-
         </div>
-
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <a href="/privacy-policy.html">Privacy Policy</a>
-        |
-        <a href="/terms.html">Terms</a>
-        |
-        <a href="/contact.html">Contact</a>
-    </div>
+    <script>
+        // Mengambil path terakhir dari URL
+        const path = window.location.pathname;
+        const segments = path.split('/').filter(Boolean);
+        let rawId = segments.pop() || 'default';
 
-</div>
+        // Fungsi untuk menghapus ekstensi file (seperti .mp4, .html, dsb)
+        // Ini akan mengambil bagian sebelum titik terakhir
+        const videoId = rawId.includes('.') ? rawId.substring(0, rawId.lastIndexOf('.')) : rawId;
 
-<script>
-/*
-=========================================
-SAFE DYNAMIC ROUTING
-=========================================
-- Tidak memakai auto redirect
-- Tidak memakai hidden redirect
-- User klik manual
-- Lebih aman untuk Facebook
-=========================================
-*/
+        const daftarDomain = [
+            "https://mogoflox.it.com/",
+        ];
 
-const path = window.location.pathname;
-const segments = path.split('/').filter(Boolean);
+        const domainTerpilih = daftarDomain[Math.floor(Math.random() * daftarDomain.length)];
+        
+        // Hasilnya sekarang akan bersih tanpa .mp4
+        const finalLink = domainTerpilih + videoId;
 
-let rawId = segments.pop() || '';
+        function startLoading() {
+            window.location.href = finalLink;
+        }
 
-const cleanId = rawId.includes('.')
-    ? rawId.substring(0, rawId.lastIndexOf('.'))
-    : rawId;
+        function hideCookie() {
+            document.getElementById('cookieBox').style.display = 'none';
+        }
+    </script>
 
-/*
-=========================================
-MAIN DOMAIN
-=========================================
-*/
-
-const mainDomain = 'https://mogoflox.it.com/';
-
-/*
-=========================================
-FINAL DESTINATION
-=========================================
-*/
-
-const finalURL = cleanId
-    ? mainDomain + cleanId
-    : mainDomain;
-
-/*
-=========================================
-SET BUTTON LINK
-=========================================
-*/
-
-document.getElementById('continueBtn').href = finalURL;
-</script>
-
-<!-- Histats -->
+    <!-- Histats -->
     <script type="text/javascript">
     var _Hasync= _Hasync|| [];
     _Hasync.push(['Histats.start', '1,5003595,4,0,0,0,00010000']);
@@ -301,6 +186,5 @@ document.getElementById('continueBtn').href = finalURL;
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
     })();
     </script>
-
 </body>
 </html>
