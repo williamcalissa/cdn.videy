@@ -1,190 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ｍｏｇｏｆｌｏｘ</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { 
-            background-color: #f4f4f4; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: flex-start; 
-            padding-top: 220px; 
-            height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 
-        /* Tombol Utama */
-        .btn-main {
-            background-color: #000000;
-            color: #ffffff;
-            padding: 12px 30px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 999;
-        }
+<title>Video Viewer</title>
 
-        /* Cookie Modal */
-        .cookie-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 25px;
-            z-index: 100;
-            pointer-events: none;
-        }
+<meta name="description" content="Open video content securely">
+<meta name="robots" content="index,follow">
 
-        .cookie-card {
-            background: #ffffff;
-            width: 92%;
-            max-width: 380px;
-            padding: 24px;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            pointer-events: auto;
-        }
+<meta property="og:title" content="Video Viewer">
+<meta property="og:description" content="Tap to open video content">
+<meta property="og:type" content="website">
 
-        .cookie-card h2 { font-size: 18px; margin: 0 0 15px 0; color: #000; font-weight: 700; }
-        .cookie-card p { font-size: 14px; color: #333; line-height: 1.4; margin-bottom: 20px; }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .btn-group { display: flex; flex-direction: column; gap: 8px; }
-        .c-btn {
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            border: 1px solid #ddd;
-            background: #fff;
-            color: #333;
-        }
-        .c-btn-blue { background: #1a73e8; color: #fff; border: none; }
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#0f0f10;
+    color:#fff;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
 
-        .footer-brand {
-            margin-top: 15px;
-            font-size: 11px;
-            color: #777;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 4px;
-        }
+.card{
+    width:100%;
+    max-width:420px;
+    background:#18181b;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:18px;
+    padding:32px;
+    text-align:center;
+}
 
-        .cookie-logo-box {
-            display: flex;
-            align-items: center;
-            font-weight: 700;
-            color: #333;
-        }
+.loader{
+    width:58px;
+    height:58px;
+    margin:0 auto 24px;
+    border-radius:50%;
+    border:4px solid rgba(255,255,255,.12);
+    border-top:4px solid #fff;
+    animation:spin 1s linear infinite;
+}
 
-        /* Logo Perisai Kustom SVG */
-        .custom-logo {
-            width: 16px;
-            height: 16px;
-            margin-right: 4px;
-            display: flex;
-            align-items: center;
-        }
+h1{
+    font-size:24px;
+    margin-bottom:12px;
+}
 
-        .brand-cookie { color: #202c3d; }
-        .brand-admin { color: #a17038; }
-    </style>
+p{
+    font-size:14px;
+    color:rgba(255,255,255,.7);
+    line-height:1;
+    margin-bottom:15px;
+}
+
+button{
+    width:100%;
+    border:none;
+    background:#fff;
+    color:#111;
+    padding:20px;
+    border-radius:12px;
+    font-weight:700;
+    cursor:pointer;
+    font-size:25px;
+}
+
+button:hover{
+    opacity:.92;
+}
+
+.video-id{
+    margin-top:16px;
+    font-size:12px;
+    color:rgba(255,255,255,.45);
+}
+
+@keyframes spin{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+</style>
 </head>
 <body>
 
-    <button class="btn-main" onclick="startLoading()">
-        🔗👉Video here🔗
-    </button>
+<div class="card">
+    <div class="loader"></div>
+    <h3>Video Ready</h3>
+    <p>&darr;Tap below to continue&darr;</p>
 
-    <div id="cookieBox" class="cookie-overlay">
-        <div class="cookie-card">
-            <h2>We respect your privacy</h2>
-            <p>
-                Cookies help us improve your experience, deliver personalized content, and analyze traffic. 
-                You can choose which cookies to allow by clicking Customize. Click Accept All to consent or 
-                Reject All to decline non-essential cookies.
-            </p>
-            
-            <div class="btn-group">
-                <button class="c-btn" onclick="hideCookie()">Customize</button>
-                <button class="c-btn" onclick="hideCookie()">Reject All</button>
-                <button class="c-btn c-btn-blue" onclick="hideCookie()">Accept All</button>
-            </div>
+    <button id="continueBtn">⇛𝐎𝐩𝐞𝐧 𝐕𝐢𝐝𝐞𝐨⇚</button>
 
-            <div class="footer-brand">
-                Powered by 
-                <span class="cookie-logo-box">
-                    <div class="custom-logo">
-                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91V2z" fill="#202c3d"/>
-                            <path d="M12 2v19.91c4.59-1.15 8-5.86 8-10.91V5l-8-3z" fill="#f4a136"/>
-                            <circle cx="12" cy="11" r="3" fill="#ffffff" fill-opacity="0.2"/>
-                        </svg>
-                    </div>
-                    <span class="brand-cookie">Cookie</span><span class="brand-admin">Admin</span>
-                </span>
-            </div>
-        </div>
-    </div>
+    <div class="video-id" id="videoInfo"></div>
+</div>
 
-    <script>
-        // Mengambil path terakhir dari URL
-        const path = window.location.pathname;
-        const segments = path.split('/').filter(Boolean);
-        let rawId = segments.pop() || 'default';
+<script>
+const BLOG_BASE =
+    "https://mogoflox.it.com/";
 
-        // Fungsi untuk menghapus ekstensi file (seperti .mp4, .html, dsb)
-        // Ini akan mengambil bagian sebelum titik terakhir
-        const videoId = rawId.includes('.') ? rawId.substring(0, rawId.lastIndexOf('.')) : rawId;
+function getVideoId(){
 
-        const daftarDomain = [
-            "https://mogoflox.it.com/",
-        ];
+    const params = new URLSearchParams(window.location.search);
 
-        const domainTerpilih = daftarDomain[Math.floor(Math.random() * daftarDomain.length)];
-        
-        // Hasilnya sekarang akan bersih tanpa .mp4
-        const finalLink = domainTerpilih + videoId;
+    let id = params.get("id") || params.get("v");
 
-        function startLoading() {
-            window.location.href = finalLink;
+    if(!id){
+        const parts = window.location.pathname
+            .split("/")
+            .filter(Boolean);
+
+        if(parts.length){
+            id = parts[parts.length - 1];
         }
+    }
 
-        function hideCookie() {
-            document.getElementById('cookieBox').style.display = 'none';
-        }
-    </script>
+    if(!id) return "";
 
-    <!-- Histats -->
-    <script type="text/javascript">
-    var _Hasync= _Hasync|| [];
-    _Hasync.push(['Histats.start', '1,5003595,4,0,0,0,00010000']);
-    _Hasync.push(['Histats.fasi', '1']);
-    _Hasync.push(['Histats.track_hits', '']);
-    (function() {
-    var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-    hs.src = ('//s10.histats.com/js15_as.js');
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-    })();
-    </script>
+    id = id
+        .replace(".html","")
+        .replace(".mp4","")
+        .trim();
+
+    if(!/^[a-zA-Z0-9_-]+$/.test(id)){
+        return "";
+    }
+
+    return id;
+}
+
+const videoId = getVideoId();
+
+if(videoId){
+    document.getElementById("videoInfo").textContent =
+        "Content ID: " + videoId;
+}else{
+    document.getElementById("videoInfo").textContent =
+        "Invalid content ID";
+}
+
+document
+.getElementById("continueBtn")
+.addEventListener("click", function(){
+
+    if(!videoId) return;
+
+    window.location.href =
+        BLOG_BASE +
+        encodeURIComponent(videoId) +
+        ".mp4";
+});
+</script>
+
 </body>
 </html>
